@@ -8,7 +8,7 @@ class RequestHandler(SimpleXMLRPCRequestHandler):
 
 
 # Create server
-with SimpleXMLRPCServer(('localhost', 2051), requestHandler=RequestHandler) as server:
+with SimpleXMLRPCServer(('10.112.150.234', 2051), requestHandler=RequestHandler) as server:
     server.register_introspection_functions()
 
     #Server variables
