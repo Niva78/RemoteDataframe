@@ -1,9 +1,7 @@
+from asyncio.windows_events import NULL
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
-import random
 import pandas as pd
-from csv import reader
-
 
 # Restrict to a particular path.
 class RequestHandler(SimpleXMLRPCRequestHandler):
@@ -13,44 +11,26 @@ class RequestHandler(SimpleXMLRPCRequestHandler):
 # Create server
 with SimpleXMLRPCServer(('localhost', 8080), requestHandler=RequestHandler) as server:
     server.register_introspection_functions()
-    # Server variables
-    list1 = ["bajoca", "putero", "tonto", "Romaní"]
-    df = pd.read_csv('fitxer.csv')
-    print(df)
 
+    # Server dataframe initialized to empty dataframe
+    df = pd.DataFrame({'A' : []})
 
-    # Funtion definition
-    def addinsult(insult):
-        list1.append(insult)
-        return 0
-
-
-    def getinsult():
-        return list1
-
-
-    def insultme():
-        return list1[random.randint(0, len(list1))]
-
-
-    def readcsv():
+    #Server function
+    def readcsv(name):
+        df = pd.read_csv(name)
         return df.values.tolist()
-
 
     def applydf(cond):
         return df.apply(eval(cond)).values.tolist()
 
-
     def columns():
         return df.columns.values.tolist()
-
 
     def groupby(cond):
         return df.groupby([cond]).mean()
 
     def head():
         return df.head(1).values.tolist()
-
 
     def isin():
         return df.isdin(1).values.tolist()
@@ -64,15 +44,11 @@ with SimpleXMLRPCServer(('localhost', 8080), requestHandler=RequestHandler) as s
     def max():
         return df.max.values.tolist()
 
-
     def min():
         return df.min.values.tolist()
 
 
     # Adding funtions
-    server.register_function(addinsult)
-    server.register_function(getinsult)
-    server.register_function(insultme)
     server.register_function(readcsv)
     server.register_function(applydf)
     server.register_function(columns)
