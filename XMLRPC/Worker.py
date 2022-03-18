@@ -1,3 +1,4 @@
+import pickle
 from asyncio.windows_events import NULL
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
@@ -13,7 +14,8 @@ with SimpleXMLRPCServer(('localhost', 8080), requestHandler=RequestHandler) as s
     server.register_introspection_functions()
 
     # Server dataframe initialized to empty dataframe
-    df = pd.DataFrame({'A' : []})
+    #df = pd.DataFrame({'A' : []})
+    df = pd.read_csv("fitxer.csv")
 
     #Server function
     def readcsv(name):
@@ -27,13 +29,14 @@ with SimpleXMLRPCServer(('localhost', 8080), requestHandler=RequestHandler) as s
         return df.columns.values.tolist()
 
     def groupby(cond):
-        return df.groupby([cond]).mean()
+
+        return pickle.dumps(df.groupby(cond))
 
     def head():
         return df.head(1).values.tolist()
 
     def isin():
-        return df.isdin(1).values.tolist()
+        return pickle.dumps(df.isin([1]))
 
 
     # def items():
@@ -42,10 +45,10 @@ with SimpleXMLRPCServer(('localhost', 8080), requestHandler=RequestHandler) as s
     #     print('content:', content, sep='\n')
 
     def max():
-        return df.max.values.tolist()
+        return pickle.dumps(df.max())
 
     def min():
-        return df.min.values.tolist()
+        return pickle.dumps(df.max())
 
 
     # Adding funtions
