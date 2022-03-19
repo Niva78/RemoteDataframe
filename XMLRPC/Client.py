@@ -35,7 +35,7 @@ if __name__ == "__main__":
     print(pickle.loads(s.isin().data))
 
     print("---------ITEMS--------------")
-    #print(s.items())
+    print(s.items())
 
     print("---------MAX--------------")
     print(pickle.loads(s.max().data))
