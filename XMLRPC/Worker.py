@@ -1,17 +1,23 @@
 import pickle
+import xmlrpc
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import pandas as pd
 
 
 # Restrict to a particular path.
+
+
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
 
 
 # Create server
-with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler) as server:
+with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allow_none=True) as server:
     server.register_introspection_functions()
+
+    s = xmlrpc.client.ServerProxy('http://localhost:8080')
+    s.addWorker('http://localhost:8090')
 
     # Server dataframe initialized to empty dataframe
     # df = pd.DataFrame({'A' : []})
