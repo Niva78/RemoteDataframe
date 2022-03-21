@@ -1,7 +1,14 @@
-#Lista de workers -> Contiene la URL de todos los worker
+class Master():
+    # Master variables
+    workerslist = []
 
-#Metodo addWorkers(URL) -> Agrega un worker que se conecte
+    # Funtion definition
+    def addWorkers(self, worker):
+        self.workerslist.append(worker)
 
-#Metodo removeWorkers(URL) -> Quita a un worker pasado por parametro
+    def removeWorker(self,worker):
+        return workerslist
 
-#Metodo getWorkers -> Pasa una lista de workers
+    def getWorkers(self):
+        return self.workerslist
+

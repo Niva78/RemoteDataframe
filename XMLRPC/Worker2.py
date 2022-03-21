@@ -1,21 +1,18 @@
 import pickle
-from xmlrpc.server import SimpleXMLRPCServer
-from xmlrpc.server import SimpleXMLRPCRequestHandler
-import pandas as pd
+from xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
 
+import pandas as pd
 
 # Restrict to a particular path.
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
 
-
-# Create server
-with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler) as server:
+with SimpleXMLRPCServer(('localhost', 8080), requestHandler=RequestHandler) as server:
     server.register_introspection_functions()
 
     # Server dataframe initialized to empty dataframe
     # df = pd.DataFrame({'A' : []})
-    df = pd.read_csv("fitxer.csv")
+    df=pd.read_csv("fitxer2.csv")
     print(df)
 
 
@@ -46,10 +43,11 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler) as s
 
 
     def items():
-        tuples=[]
+        tuples = []
         for label, content in df.items():
             tuples.append(content.values.tolist())
         return tuples
+
 
     def max():
         return pickle.dumps(df.max())
