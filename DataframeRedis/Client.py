@@ -12,6 +12,7 @@ import pandas as pd
 #Hacer bucle que envie la funcion a todos los worker disponible
 
 if __name__ == "__main__":
+    # s = xmlrpc.client.ServerProxy('http://localhost:8000')
     s = xmlrpc.client.ServerProxy('http://localhost:8080')
     print(s.system.listMethods())
     print(s.getinsult())

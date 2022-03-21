@@ -2,15 +2,23 @@ from asyncio.windows_events import NULL
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import pandas as pd
+import redis
 
 # Restrict to a particular path.
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
 
+print("Creating new worker...")
 
 # Create server
-with SimpleXMLRPCServer(('localhost', 8080), requestHandler=RequestHandler) as server:
+with SimpleXMLRPCServer(('localhost', 8081), requestHandler=RequestHandler) as server:
     server.register_introspection_functions()
+
+    #Connecting worker to master
+    redis_cli = redis.Redis(host="localhost", port=6379)
+    #Adding his URL to the master
+    redis_cli.append('URL', 'localhost')
+    print(str(redis_cli.get('URL')))
 
     # Server dataframe initialized to empty dataframe
     df = pd.DataFrame({'A' : []})
