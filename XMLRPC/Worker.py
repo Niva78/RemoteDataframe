@@ -20,9 +20,7 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
     s.addWorker('http://localhost:8090')
 
     # Server dataframe initialized to empty dataframe
-    # df = pd.DataFrame({'A' : []})
-    df = pd.read_csv("fitxer.csv")
-    print(df)
+    df = pd.DataFrame({'A' : []})
 
 
     # Server function
