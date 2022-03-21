@@ -1,6 +1,7 @@
 import pickle
 import xmlrpc.client
 
+
 if __name__ == "__main__":
 
     master = xmlrpc.client.ServerProxy('http://localhost:8080')
@@ -27,6 +28,15 @@ if __name__ == "__main__":
         print(connection.items())
         print("---------MAX--------------")
         print(pickle.loads(connection.max().data))
+        valor = pickle.loads(connection.max().data)
+        if (max == None and max < valor):
+            max = valor
+        print("The maximum worker's value is: ",max)
+
         print("---------MIN--------------")
         print(pickle.loads(connection.min().data))
+        valor = pickle.loads(connection.min().data)
+        if (min == None and min < valor):
+            min = valor
 
+        print("The minimum worker's value is: ", min)

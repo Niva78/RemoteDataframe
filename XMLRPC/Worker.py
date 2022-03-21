@@ -22,7 +22,6 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
     # Server dataframe initialized to empty dataframe
     df = pd.DataFrame({'A' : []})
 
-
     # Server function
     def readcsv(name):
         df = pd.read_csv(name)
