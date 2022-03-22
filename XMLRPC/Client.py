@@ -1,5 +1,6 @@
 import pickle
 import xmlrpc.client
+<<<<<<< HEAD
 import pandas as pd
 
 if __name__ == "__main__":
@@ -67,8 +68,45 @@ if __name__ == "__main__":
     print(pickle.loads(s.max().data))
     print(pickle.loads(s2.max().data))
     print(pickle.loads(s3.max().data))
+=======
 
-    print("---------MIN--------------")
-    print(pickle.loads(s.min().data))
-    print(pickle.loads(s2.min().data))
-    print(pickle.loads(s3.min().data))
+
+if __name__ == "__main__":
+>>>>>>> 5fb7203121838556c152daffdfb29dbe2bab2eb9
+
+    master = xmlrpc.client.ServerProxy('http://localhost:8080')
+    workersList = master.getWorker()
+    connections = []
+    for worker in workersList:
+        connections.append(xmlrpc.client.ServerProxy(worker))
+
+    for connection in connections:
+        print("Les connexions disponibles son: ", connection)
+        print("---------READ CSV FILE--------------")
+        print(connection.readcsv("fitxer.csv"))
+        print("---------APPLY--------------")
+        print(connection.applydf("lambda x: x**2"))
+        print("---------COLUMNS--------------")
+        print(connection.columns())
+        print("---------GROUPBY--------------")
+        print(pickle.loads(connection.groupby('A').data))
+        print("---------HEAD--------------")
+        print(connection.head())
+        print("---------ISIN--------------")
+        print(pickle.loads(connection.isin().data))
+        print("---------ITEMS--------------")
+        print(connection.items())
+        print("---------MAX--------------")
+        print(pickle.loads(connection.max().data))
+        valor = pickle.loads(connection.max().data)
+        if (max == None and max < valor):
+            max = valor
+        print("The maximum worker's value is: ",max)
+
+        print("---------MIN--------------")
+        print(pickle.loads(connection.min().data))
+        valor = pickle.loads(connection.min().data)
+        if (min == None and min < valor):
+            min = valor
+
+        print("The minimum worker's value is: ", min)
