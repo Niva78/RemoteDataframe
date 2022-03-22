@@ -15,11 +15,13 @@ with SimpleXMLRPCServer(('localhost', 8080), requestHandler=RequestHandler, allo
 
     # Funtion definition
     def addWorker(worker):
+        global workerslist
         workerslist.append(worker)
 
 
     def removeWorker(worker):
-        return workerslist
+        global workerslist
+        workerslist.remove(worker)
 
 
     def getWorker():
