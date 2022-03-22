@@ -6,8 +6,8 @@ class Master():
     def addWorkers(self, worker):
         self.workerslist.append(worker)
 
-    def removeWorker(self,worker):
-        return workerslist
+    def removeWorker(self, worker):
+        return self.workerslist.remove(worker)
 
     def getWorkers(self):
         return self.workerslist

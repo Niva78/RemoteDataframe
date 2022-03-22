@@ -19,6 +19,7 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler) as s
 
     # Server function
     def readcsv(name):
+        global df
         df = pd.read_csv(name)
         return df.values.tolist()
 

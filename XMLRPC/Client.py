@@ -1,26 +1,6 @@
 import pickle
 import xmlrpc.client
-
 import pandas as pd
-
-# PENDIENTE
-
-# Crear lista de workers
-
-# Pedir lista de workers al master
-
-# Cliente ha de propagar la ejecucion de las funciones a los diferentes worker
-# Hacer bucle que envie la funcion a todos los worker disponible
-import self as self
-
-<<<<<<< HEAD
-if __name__ == "__main__":
-    s = xmlrpc.client.ServerProxy('http://localhost:8080')
-    print(s.system.listMethods())
-    print(s.getinsult())
-=======
-from Master import Master
->>>>>>> 612785e2252499126108cd3566ea4a31e847e828
 
 if __name__ == "__main__":
     urlPort = 'http://localhost:8090'
