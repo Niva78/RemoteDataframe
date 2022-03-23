@@ -1,4 +1,3 @@
-from unittest import result
 import redis
 import pandas as pd
 import pickle
@@ -30,7 +29,7 @@ def head():
 
 
 def isin():
-    return pickle.dumps(df.isin([1]))
+    return df.isin([1])
 
 
 def items():
@@ -44,7 +43,7 @@ def max():
 
 
 def min():
-    return pickle.dumps(df.max())
+    return df.min()
 
 #Connecting to REDIS
 subscriber = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
@@ -57,10 +56,10 @@ subscription.get_message()
 
 #Infinite listening loop.
 operation = None
-message = []
 while True:
     if operation != None:
-        function,channel = str(operation['data']).split(',')
-        result = eval(function)
-        subscriber.publish(str(channel), str(result))
+        if operation['data'] != 1:
+            function,channel = str(operation['data']).split(',')
+            result = eval(function)
+            subscriber.publish(str(channel), str(result))
     operation = subscription.get_message()
