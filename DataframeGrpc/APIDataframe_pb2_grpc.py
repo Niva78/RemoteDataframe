@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import min_pb2 as min__pb2
+import APIDataframe_pb2 as APIDataframe__pb2
 
 
-class MinStub(object):
+class APIDataframeStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,42 +14,42 @@ class MinStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.min = channel.unary_unary(
-                '/Min/min',
-                request_serializer=min__pb2.Result.SerializeToString,
-                response_deserializer=min__pb2.Result.FromString,
+        self.Min = channel.unary_unary(
+                '/APIDataframe/Min',
+                request_serializer=APIDataframe__pb2.Result.SerializeToString,
+                response_deserializer=APIDataframe__pb2.Result.FromString,
                 )
 
 
-class MinServicer(object):
+class APIDataframeServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def min(self, request, context):
+    def Min(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_MinServicer_to_server(servicer, server):
+def add_APIDataframeServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'min': grpc.unary_unary_rpc_method_handler(
-                    servicer.min,
-                    request_deserializer=min__pb2.Result.FromString,
-                    response_serializer=min__pb2.Result.SerializeToString,
+            'Min': grpc.unary_unary_rpc_method_handler(
+                    servicer.Min,
+                    request_deserializer=APIDataframe__pb2.Result.FromString,
+                    response_serializer=APIDataframe__pb2.Result.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'Min', rpc_method_handlers)
+            'APIDataframe', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class Min(object):
+class APIDataframe(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def min(request,
+    def Min(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +59,8 @@ class Min(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Min/min',
-            min__pb2.Result.SerializeToString,
-            min__pb2.Result.FromString,
+        return grpc.experimental.unary_unary(request, target, '/APIDataframe/Min',
+            APIDataframe__pb2.Result.SerializeToString,
+            APIDataframe__pb2.Result.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

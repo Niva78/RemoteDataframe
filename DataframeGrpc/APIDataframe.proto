@@ -4,6 +4,6 @@ message Result {
     string result = 1;
 }
 
-service Min {
-    rpc min(Result) returns (Result) {}
+service APIDataframe {
+    rpc Min(Result) returns (Result) {}
 }
