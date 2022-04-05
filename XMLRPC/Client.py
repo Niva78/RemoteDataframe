@@ -23,7 +23,7 @@ if __name__ == "__main__":
         print("---------HEAD--------------")
         print(connection.head())
         print("---------ISIN--------------")
-        print(pickle.loads(connection.isin().data))
+        print(pickle.loads(connection.isin(1).data))
         print("---------ITEMS--------------")
         print(connection.items())
         print("---------MAX--------------")
