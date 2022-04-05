@@ -6,4 +6,5 @@ message Result {
 
 service APIDataframe {
     rpc Min(Result) returns (Result) {}
+    rpc Max(Result) returns (Result) {}
 }

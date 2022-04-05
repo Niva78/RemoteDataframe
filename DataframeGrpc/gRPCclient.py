@@ -13,6 +13,6 @@ stub = APIDataframe_pb2_grpc.APIDataframeStub(channel)
 number = APIDataframe_pb2.Result(result=bytes(1))
 
 #calling server
-response = stub.Min(number)
+response = stub.Max(number)
 
 print(response.result)

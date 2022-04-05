@@ -19,6 +19,11 @@ class APIDataframeStub(object):
                 request_serializer=APIDataframe__pb2.Result.SerializeToString,
                 response_deserializer=APIDataframe__pb2.Result.FromString,
                 )
+        self.Max = channel.unary_unary(
+                '/APIDataframe/Max',
+                request_serializer=APIDataframe__pb2.Result.SerializeToString,
+                response_deserializer=APIDataframe__pb2.Result.FromString,
+                )
 
 
 class APIDataframeServicer(object):
@@ -30,11 +35,22 @@ class APIDataframeServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Max(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_APIDataframeServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Min': grpc.unary_unary_rpc_method_handler(
                     servicer.Min,
+                    request_deserializer=APIDataframe__pb2.Result.FromString,
+                    response_serializer=APIDataframe__pb2.Result.SerializeToString,
+            ),
+            'Max': grpc.unary_unary_rpc_method_handler(
+                    servicer.Max,
                     request_deserializer=APIDataframe__pb2.Result.FromString,
                     response_serializer=APIDataframe__pb2.Result.SerializeToString,
             ),
@@ -60,6 +76,23 @@ class APIDataframe(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/APIDataframe/Min',
+            APIDataframe__pb2.Result.SerializeToString,
+            APIDataframe__pb2.Result.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Max(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/APIDataframe/Max',
             APIDataframe__pb2.Result.SerializeToString,
             APIDataframe__pb2.Result.FromString,
             options, channel_credentials,

@@ -18,6 +18,12 @@ class APIDataframeServicer(APIDataframe_pb2_grpc.APIDataframeServicer):
         response = APIDataframe_pb2.Result()
         response.result = APIDataframe.min()
         return response
+    
+    #Funtion definition
+    def Max(self, request, context):
+        response = APIDataframe_pb2.Result()
+        response.result = APIDataframe.max()
+        return response
 
 
 #Creating grpc server
