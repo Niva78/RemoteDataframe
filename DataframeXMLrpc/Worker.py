@@ -1,3 +1,4 @@
+from multiprocessing.connection import answer_challenge
 import pickle
 import xmlrpc
 from xmlrpc.server import SimpleXMLRPCServer
@@ -20,7 +21,7 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
     s.addWorker('http://localhost:8090')
 
     # Server dataframe initialized to empty dataframe
-    df = pd.DataFrame({'A' : []})
+    df = pd.read_csv("test1.csv")
 
     # Server function
     def readcsv(name):
@@ -38,6 +39,7 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
 
 
     def groupby(cond):
+        print(type(cond))
         return pickle.dumps(df.groupby(cond))
 
 
@@ -55,12 +57,12 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
             tuples.append(content.values.tolist())
         return tuples
 
-    def max():
-        return pickle.dumps(df.max())
+    def max(column):
+        return str(df[column].max())
 
 
-    def min():
-        return pickle.dumps(df.max())
+    def min(column):
+        return str(df[column].min())
 
 
     # Adding funtions
