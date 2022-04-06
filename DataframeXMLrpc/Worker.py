@@ -3,6 +3,7 @@ import pickle
 import xmlrpc
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
+from numpy import average
 import pandas as pd
 
 
@@ -27,28 +28,29 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
     def readcsv(name):
         global df
         df = pd.read_csv(name)
-        return df.values.tolist()
+        return pickle.dumps(df)
 
 
-    def applydf(cond):
-        return df.apply(eval(cond)).values.tolist()
+    def apply(cond):
+        column, pred = str(cond).split(",")
+        print(column + pred)
+        return pickle.dumps(df[column].apply(eval(pred)))
 
 
     def columns():
-        return df.columns.values.tolist()
+        return pickle.dumps(df.columns)
 
 
     def groupby(cond):
-        print(type(cond))
-        return pickle.dumps(df.groupby(cond))
+        return pickle.dumps(df.groupby([cond]).mean())
 
 
-    def head():
-        return df.head(1).values.tolist()
+    def head(num):
+        return pickle.dumps(df.head(num))
 
 
-    def isin():
-        return pickle.dumps(df.isin([1]))
+    def isin(item):
+        return pickle.dumps(df.isin([item]))
 
 
     def items():
@@ -67,7 +69,7 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
 
     # Adding funtions
     server.register_function(readcsv)
-    server.register_function(applydf)
+    server.register_function(apply)
     server.register_function(columns)
     server.register_function(groupby)
     server.register_function(head)

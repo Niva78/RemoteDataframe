@@ -7,4 +7,4 @@ columnName = None
 
 newDT = df1.loc[:,"Payment"]
 
-print(df1.groupby(['Date']).mean())
+print(df1["Payment"].apply(lambda x: x * x))
