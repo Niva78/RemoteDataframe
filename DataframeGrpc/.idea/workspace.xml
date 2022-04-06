@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="327b2e69-0b29-4dde-af5a-14af41653d33" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../DataframeRedis/Client.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DataframeRedis/Worker.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../InsultServergRPC/Client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../XMLRPC/InsultServergRPC/Client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../InsultServergRPC/Server.py" beforeDir="false" afterPath="$PROJECT_DIR$/../XMLRPC/InsultServergRPC/Server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../InsultServergRPC/calculator.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../XMLRPC/InsultServergRPC/calculator.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../InsultServergRPC/calculator.py" beforeDir="false" afterPath="$PROJECT_DIR$/../XMLRPC/InsultServergRPC/calculator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../InsultServergRPC/calculator_pb2.py" beforeDir="false" afterPath="$PROJECT_DIR$/../XMLRPC/InsultServergRPC/calculator_pb2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../InsultServergRPC/calculator_pb2_grpc.py" beforeDir="false" afterPath="$PROJECT_DIR$/../XMLRPC/InsultServergRPC/calculator_pb2_grpc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Publish-Subscribe/Publisher.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Publish-Subscribe/Subscriber.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Publish-Subscribe/test1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../XMLRPC/Client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../XMLRPC/Client.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="276LcVfLdnf86D6WSSL90l6btmD" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="327b2e69-0b29-4dde-af5a-14af41653d33" name="Default Changelist" comment="" />
+      <created>1648635668667</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1648635668667</updated>
+    </task>
+    <servers />
+  </component>
+</project>
