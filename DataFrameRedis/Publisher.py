@@ -2,23 +2,23 @@ import redis
 import pandas as pd
 import pickle
 
+#Connecting to redis server as a publisher
+publisher = redis.Redis(host='localhost', port=6379)
 
+#Publish the function that user wants from the workers
+publisher.publish('Functions', 'head(6)-Min')
 
+#Create a publisher
+publisher_p = publisher.pubsub()
 
+#Subscribing to a channel
+publisher_p.subscribe('Min')
 
-#Client subscriber
-client_1 = redis.Redis(host='localhost', port=6379, decode_responses=True)
-client_1.publish('channel', 'groupby(\"Name\"),ResultRead')
-
-client_1p = client_1.pubsub()
-client_1p.subscribe('ResultRead')
-
-
-answer = False
-messag = None
-while not answer:
-    if messag != None and messag.get('type') == "message":
-        print("The message is:")
-        print(messag['data'])
-        answer = True
-    messag = client_1p.get_message()
+#Waiting loop for answer
+answered = False
+messag = publisher_p.get_message(ignore_subscribe_messages=True)
+while not answered:
+    if messag and messag.get('type'):
+        print(pickle.loads(messag.get('data')))
+        answered = True
+    messag = publisher_p.get_message(ignore_subscribe_messages=True)

@@ -1,3 +1,5 @@
+from ast import Subscript
+from re import sub
 import redis
 import pandas as pd
 import pickle
@@ -12,8 +14,8 @@ def readcsv(name):
     return df.values.tolist()
 
 
-def apply(cond):
-    return pickle.dumps(df.apply(eval(cond)))
+def apply(column, cond):
+    return df[column].apply(eval(cond))
 
 
 def columns():
@@ -21,15 +23,15 @@ def columns():
 
 
 def groupby(cond):
-    return pickle.dumps(df.groupby([cond]).mean())
+    return df.groupby([cond]).mean()
 
 
 def head(num):
-    return pickle.dumps(df.head(num))
+    return df.head(num)
 
 
 def isin(item):
-    return pickle.dumps(df.isin([item]))
+    return df.isin([item])
 
 
 def items():
@@ -39,27 +41,24 @@ def items():
     return tuples
 
 def max(column):
-    return str(df[column].max())
+    return df[column].max()
 
 
 def min(column):
-    return str(df[column].min())
+    return df[column].min()
 
-#Connecting to REDIS
-subscriber = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
-subscription = subscriber.pubsub()
-subscription.subscribe('channel')
+#Connecting to Redis
+subscriber =  redis.Redis(host="localhost", port=6379, decode_responses=True)
 
+#Creating bridge to pub sub
+subscriber_p = subscriber.pubsub()
 
-#Getting connection message
-subscription.get_message()
+#Subscribing subscriber into a channel
+subscriber_p.subscribe("Functions")
 
-#Infinite listening loop.
-operation = None
+messag = subscriber_p.get_message(ignore_subscribe_messages=True)
 while True:
-    if operation and operation.get('type') == "message":
-        function,channel = str(operation['data']).split(',')
-        result = eval(function)
-        print(result)
-        subscriber.publish(str(channel), result)
-    operation = subscription.get_message()
+    if messag and messag.get('type') == "message":
+        funct, channel = str(messag.get('data')).split('-')
+        subscriber.publish(channel, pickle.dumps(eval(funct)))
+    messag = subscriber_p.get_message(ignore_subscribe_messages=True)
