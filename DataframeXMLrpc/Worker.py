@@ -28,17 +28,15 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
     def readcsv(name):
         global df
         df = pd.read_csv(name)
-        return pickle.dumps(df)
+        return df.values.tolist()
 
 
     def apply(cond):
-        column, pred = str(cond).split(",")
-        print(column + pred)
-        return pickle.dumps(df[column].apply(eval(pred)))
+        return pickle.dumps(df.apply(eval(cond)))
 
 
     def columns():
-        return pickle.dumps(df.columns)
+        return df.columns.values.tolist()
 
 
     def groupby(cond):

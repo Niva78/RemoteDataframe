@@ -16,13 +16,13 @@ class APIDataframeServicer(APIDataframe_pb2_grpc.APIDataframeServicer):
     #Funtion definition
     def Min(self, request, context):
         response = APIDataframe_pb2.Result()
-        response.result = APIDataframe.min()
+        response.result = APIDataframe.min(request.result)
         return response
     
     #Funtion definition
     def Max(self, request, context):
         response = APIDataframe_pb2.Result()
-        response.result = APIDataframe.max()
+        response.result = APIDataframe.max(request.result)
         return response
 
 

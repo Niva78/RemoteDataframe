@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 
 #Creating empty dataframe
-df = pd.DataFrame({'A' : []})
+df = pd.read_csv("test1.csv")
 
 #Server functions
 def readcsv(name):
@@ -12,8 +12,8 @@ def readcsv(name):
     return df.values.tolist()
 
 
-def applydf(cond):
-    return df.apply(eval(cond)).values.tolist()
+def apply(cond):
+    return pickle.dumps(df.apply(eval(cond)))
 
 
 def columns():
@@ -21,15 +21,15 @@ def columns():
 
 
 def groupby(cond):
-    return pickle.dumps(df.groupby(cond))
+    return pickle.dumps(df.groupby([cond]).mean())
 
 
-def head():
-    return df.head(1).values.tolist()
+def head(num):
+    return pickle.dumps(df.head(num))
 
 
-def isin():
-    return df.isin([1])
+def isin(item):
+    return pickle.dumps(df.isin([item]))
 
 
 def items():
@@ -38,17 +38,17 @@ def items():
         tuples.append(content.values.tolist())
     return tuples
 
-def max():
-    return pickle.dumps(df.max())
+def max(column):
+    return str(df[column].max())
 
 
-def min():
-    return df.min()
+def min(column):
+    return str(df[column].min())
 
 #Connecting to REDIS
 subscriber = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
 subscription = subscriber.pubsub()
-subscription.psubscribe('channel-*')
+subscription.subscribe('channel')
 
 
 #Getting connection message
@@ -57,9 +57,9 @@ subscription.get_message()
 #Infinite listening loop.
 operation = None
 while True:
-    if operation != None:
-        if operation['data'] != 1:
-            function,channel = str(operation['data']).split(',')
-            result = eval(function)
-            subscriber.publish(str(channel), str(result))
+    if operation and operation.get('type') == "message":
+        function,channel = str(operation['data']).split(',')
+        result = eval(function)
+        print(result)
+        subscriber.publish(str(channel), result)
     operation = subscription.get_message()

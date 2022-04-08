@@ -7,20 +7,18 @@ import pickle
 
 
 #Client subscriber
-client_1 = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
-client_1.publish('channel-min', 'min(),ResultRead')
+client_1 = redis.Redis(host='localhost', port=6379, decode_responses=True)
+client_1.publish('channel', 'groupby(\"Name\"),ResultRead')
 
 client_1p = client_1.pubsub()
 client_1p.subscribe('ResultRead')
 
-client_1p.get_message()
-
 
 answer = False
-operation = None
-while True:
-    if operation != None:
-        if operation['data'] != 1:
-            print (operation['data'])
-            answer = True
-    operation = client_1p.get_message()
+messag = None
+while not answer:
+    if messag != None and messag.get('type') == "message":
+        print("The message is:")
+        print(messag['data'])
+        answer = True
+    messag = client_1p.get_message()
