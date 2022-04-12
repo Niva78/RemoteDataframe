@@ -1,9 +1,11 @@
+from ast import Subscript
+from re import sub
 import redis
 import pandas as pd
 import pickle
 
 #Creating empty dataframe
-df = pd.DataFrame({'A' : []})
+df = pd.read_csv("test1.csv")
 
 #Server functions
 def readcsv(name):
@@ -12,8 +14,8 @@ def readcsv(name):
     return df.values.tolist()
 
 
-def applydf(cond):
-    return df.apply(eval(cond)).values.tolist()
+def apply(column, cond):
+    return df[column].apply(eval(cond))
 
 
 def columns():
@@ -21,15 +23,15 @@ def columns():
 
 
 def groupby(cond):
-    return pickle.dumps(df.groupby(cond))
+    return df.groupby([cond]).mean()
 
 
-def head():
-    return df.head(1).values.tolist()
+def head(num):
+    return df.head(num)
 
 
-def isin():
-    return df.isin([1])
+def isin(item):
+    return df.isin([item])
 
 
 def items():
@@ -38,28 +40,25 @@ def items():
         tuples.append(content.values.tolist())
     return tuples
 
-def max():
-    return pickle.dumps(df.max())
+def max(column):
+    return df[column].max()
 
 
-def min():
-    return df.min()
+def min(column):
+    return df[column].min()
 
-#Connecting to REDIS
-subscriber = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
-subscription = subscriber.pubsub()
-subscription.psubscribe('channel-*')
+#Connecting to Redis
+subscriber =  redis.Redis(host="localhost", port=6379, decode_responses=True)
 
+#Creating bridge to pub sub
+subscriber_p = subscriber.pubsub()
 
-#Getting connection message
-subscription.get_message()
+#Subscribing subscriber into a channel
+subscriber_p.subscribe("Functions")
 
-#Infinite listening loop.
-operation = None
+messag = subscriber_p.get_message(ignore_subscribe_messages=True)
 while True:
-    if operation != None:
-        if operation['data'] != 1:
-            function,channel = str(operation['data']).split(',')
-            result = eval(function)
-            subscriber.publish(str(channel), str(result))
-    operation = subscription.get_message()
+    if messag and messag.get('type') == "message":
+        funct, channel = str(messag.get('data')).split('-')
+        subscriber.publish(channel, pickle.dumps(eval(funct)))
+    messag = subscriber_p.get_message(ignore_subscribe_messages=True)

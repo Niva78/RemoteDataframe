@@ -10,9 +10,10 @@ channel = grpc.insecure_channel('localhost:50051')
 stub = APIDataframe_pb2_grpc.APIDataframeStub(channel)
 
 #create valid request message
-number = APIDataframe_pb2.Result(result=bytes(1))
+number = APIDataframe_pb2.Result(result="Payment")
 
 #calling server
 response = stub.Max(number)
-
+print(response.result)
+response = stub.Min(number)
 print(response.result)

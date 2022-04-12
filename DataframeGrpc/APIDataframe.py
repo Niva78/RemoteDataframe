@@ -2,8 +2,9 @@ import pandas as pd
 import pickle
 dt = pd.read_csv("test1.csv")
 
-def min():
-    return dt.min().to_string()
+def max(column):
+    return str(dt[column].max())
 
-def max():
-    return dt.max().to_string()
+
+def min(column):
+    return str(dt[column].min())
