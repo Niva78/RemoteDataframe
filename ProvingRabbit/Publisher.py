@@ -20,7 +20,7 @@ channel.basic_publish(exchange='logs', routing_key='', body=message)
 
 #GETTING ANSWER
 channel.queue_declare(queue='response', durable=True)
-print(' [*] Waiting for messages. To exit press CTRL+C')
+print(' [*] Waiting for response("Not nesessary"). To exit press CTRL+C')
 
 
 def callback(ch, method, properties, body):
