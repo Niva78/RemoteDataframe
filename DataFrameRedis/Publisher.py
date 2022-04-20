@@ -6,13 +6,13 @@ import pickle
 publisher = redis.Redis(host='localhost', port=6379)
 
 #Publish the function that user wants from the workers
-publisher.publish('Functions', 'head(6)-Min')
+publisher.publish('Functions', 'head(6)-Head')
 
 #Create a publisher
 publisher_p = publisher.pubsub()
 
 #Subscribing to a channel
-publisher_p.subscribe('Min')
+publisher_p.subscribe('Head')
 
 #Waiting loop for answer
 answered = False
