@@ -16,11 +16,20 @@ channel.queue_bind(exchange='logs', queue='response')
 
 print(' [*] Waiting for logs. To exit press CTRL+C')
 
-df = pd.read_csv("fitxer.csv.txt")
+df = pd.read_csv("fitxer.csv")
+
+
+def max(column):
+    return df[column].max()
+
+
+def min(column):
+    return df[column].min()
+
 
 def callback(ch, method, properties, body):
     result = eval(body)
-    print(" [x] Received %r" % result)
+    print(result)
     channel.basic_publish(exchange='', routing_key='response', body=pickle.dumps(result))
 
 channel.basic_consume(queue='sender', on_message_callback=callback, auto_ack=True)
