@@ -15,7 +15,7 @@ def readcsv(name):
 
 
 def apply(column, cond):
-    return df[column].apply(eval(cond))
+    return df[column].apply(cond)
 
 
 def columns():

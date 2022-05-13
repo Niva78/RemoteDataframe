@@ -18,7 +18,7 @@ for worker in connections:
 
 #Proving apply function
 for worker in connections:
-    print(pickle.loads(worker.apply("Payment,lambda x:x**2").data))
+    print(pickle.loads(worker.apply("Payment, lambda x:x**2").data))
 
 #Proving columns function
 for worker in connections:

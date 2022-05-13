@@ -1,17 +1,23 @@
-from multiprocessing import connection
 import queue
 import pika
+import pandas as pd
+import pickle
+
+#API dataframe
+df = pd.read_csv('test1.csv')
+
+def max(column):
+    return df[column].max()
+
+
+def min(column):
+    return df[column].min()
 
 #Establishing connection
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 
 #Creating a communication channel
 channel = connection.channel()
-
-#ANSWERING
-#Creating a response channel
-channel.queue_declare(queue='response', durable=True)
-
 
 #Creating an exchange
 channel.exchange_declare(exchange='logs', exchange_type='fanout')
@@ -28,7 +34,9 @@ print(' [*] Waiting for logs. To exit press CTRL+C')
 #Method to receive messages
 def callback(ch, method, properties, body):
     print(" [*] Getting incoming message %r" % body.decode())
-    channel.basic_publish(exchange='', routing_key='response', body='What\'s up?')
+    response = body.decode()
+    funct, chnnl = str(response).split(',')
+    channel.basic_publish(exchange='', routing_key=chnnl, body=pickle.dumps(eval(funct)))
 
 #Definnig behaviour ones it starts consuming
 channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)

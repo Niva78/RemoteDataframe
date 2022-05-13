@@ -1,5 +1,9 @@
+from unittest import result
 import pika
 import sys
+import pickle
+
+RESPONSE_QUEUE_NAME = "Min"
 
 #Creating connection to pika
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
@@ -11,27 +15,27 @@ channel = connection.channel()
 channel.exchange_declare(exchange='logs', exchange_type='fanout')
 
 #Creating message
-message = "Hello brother."
+message = ("min(\"Payment\")," + RESPONSE_QUEUE_NAME)
 
 #Publishing a message
 channel.basic_publish(exchange='logs', routing_key='', body=message)
 
 
 
-#GETTING ANSWER
-channel.queue_declare(queue='response', durable=True)
-print(' [*] Waiting for response("Not nesessary"). To exit press CTRL+C')
+#Creating answer buffer
+channel.queue_declare(queue=RESPONSE_QUEUE_NAME, durable=True)
 
+min = 0
+max = 0
 
 def callback(ch, method, properties, body):
-    print(" [x] Received %r" % body.decode())
     ch.basic_ack(delivery_tag=method.delivery_tag)
-    print(" [x] exiting...")
-    quit()
+    global max
+    result = pickle.loads(body)
+    max = max(max, int(result))
 
 
-channel.basic_consume(queue='response', on_message_callback=callback)
+channel.basic_consume(queue=RESPONSE_QUEUE_NAME, on_message_callback=callback)
 channel.start_consuming()
 
-#Closing connection
-connection.close()
+print("The max value is: " + max)
