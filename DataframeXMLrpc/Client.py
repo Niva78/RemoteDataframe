@@ -18,7 +18,7 @@ for worker in connections:
 
 #Proving apply function
 for worker in connections:
-    print(pickle.loads(worker.apply("Payment, lambda x:x**2").data))
+    print(pickle.loads(worker.apply("Payment,lambda x:x**2").data))
 
 #Proving columns function
 for worker in connections:
@@ -38,12 +38,12 @@ for worker in connections:
 
 #Proving items function
 for worker in connections:
-    print(worker.items())
+    print(pickle.loads(worker.items().data))
 
 #Proving max function
 for worker in connections:
-    print(worker.max("Payment"))
+    print(pickle.loads(worker.max("Payment").data))
 
 #Proving min function
 for worker in connections:
-    print(worker.min("Payment"))
+    print(pickle.loads(worker.min("Payment").data))

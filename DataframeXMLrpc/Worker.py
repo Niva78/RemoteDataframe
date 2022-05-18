@@ -24,19 +24,20 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
     # Server dataframe initialized to empty dataframe
     df = pd.read_csv("test1.csv")
 
-    # Server function
+    #Server functions
     def readcsv(name):
         global df
         df = pd.read_csv(name)
-        return df.values.tolist()
+        return pickle.dumps(df.values.tolist())
 
 
-    def apply(cond):
-        return pickle.dumps(df.apply(eval(cond)))
+    def apply(recived):
+        column, cond = str(recived).split(",") 
+        return pickle.dumps(df[column].apply(eval(cond)))
 
 
     def columns():
-        return df.columns.values.tolist()
+        return pickle.dumps(df.columns.values.tolist())
 
 
     def groupby(cond):
@@ -55,14 +56,14 @@ with SimpleXMLRPCServer(('localhost', 8090), requestHandler=RequestHandler, allo
         tuples=[]
         for label, content in df.items():
             tuples.append(content.values.tolist())
-        return tuples
+        return pickle.dumps(tuples)
 
     def max(column):
-        return str(df[column].max())
+        return pickle.dumps(df[column].max())
 
 
     def min(column):
-        return str(df[column].min())
+        return pickle.dumps(df[column].min())
 
 
     # Adding funtions
