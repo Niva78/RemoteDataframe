@@ -35,5 +35,3 @@ def callback(ch, method, properties, body):
 
 channel.basic_consume(queue=RESPONSE_QUEUE_NAME, on_message_callback=callback)
 channel.start_consuming()
-
-print("The max value is: " + max)
