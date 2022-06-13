@@ -63,7 +63,7 @@ def kill():
 
 
 #Creating server
-server = MyServer(('127.0.0.1', 8090))  
+server = MyServer(('127.0.0.1', 8091))  
 server.allow_none = True
 
 # Adding funtions

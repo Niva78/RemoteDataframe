@@ -1,67 +1,29 @@
-from http import client
-import xmlrpc
-from xmlrpc.server import SimpleXMLRPCServer
-from xmlrpc.server import SimpleXMLRPCRequestHandler
+from time import time
 import xmlrpc.client
-import pickle
-
-class MyServer(SimpleXMLRPCServer):
-    workerList = []
-    clientList = []
-    def serve_forever(self):
-        self.quit = 0
-        while not self.quit:
-            #Connecting to master
-            master = xmlrpc.client.ServerProxy('http://localhost:8080')
-
-            #Getting workers
-            self.workersList = master.getWorkers()
-            self.connections = []
-            for worker in self.workersList:
-                self.connections.append(xmlrpc.client.ServerProxy(worker))
-
-            #Proving read csv function
-            for worker in self.connections:
-                print(pickle.loads(worker.readcsv("test1.csv").data))
-
-            #Proving apply function
-            for worker in self.connections:
-                print(pickle.loads(worker.apply("Payment,lambda x:x**2").data))
-
-            #Proving columns function
-            for worker in self.connections:
-                print(pickle.loads(worker.columns().data))
-
-            #Proving groupby function
-            for worker in self.connections:
-                print(pickle.loads(worker.groupby("Name").data))
-
-            #Proving head function
-            for worker in self.connections:
-                print(pickle.loads(worker.head(3).data))
-
-            #Proving isin function
-            for worker in self.connections:
-                print(pickle.loads(worker.isin("Nico").data))
-
-            #Proving items function
-            for worker in self.connections:
-                print(pickle.loads(worker.items().data))
-
-            #Proving max function
-            for worker in self.connections:
-                print(pickle.loads(worker.max("Payment").data))
-
-            #Proving min function
-            for worker in self.connections:
-                print(pickle.loads(worker.min("Payment").data))
-            server.handle_request()
+import time
 
 
-def kill():
-    server.quit = 1
-    return 1
+#We implement a pull system in which client call master in order to update the worker list
+def update_workers(master):
+    workersList = master.getWorkers()
+    connections = []
+    for worker in workersList:
+        connections.append(xmlrpc.client.ServerProxy(worker))
+    return connections
 
-server = MyServer(('127.0.0.1', 8091))  
-server.allow_none = True
-server.serve_forever()
+#Connecting to master
+master = xmlrpc.client.ServerProxy('http://localhost:8080')
+
+#Proving read csv function
+connections = update_workers(master)
+
+print("Antes")
+print(connections)
+connections[0].kill()
+time.sleep(4)
+
+connections = update_workers(master)
+
+time.sleep(4)
+print("Despues")
+print(connections)
