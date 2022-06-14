@@ -18,7 +18,7 @@ class MyServer(SimpleXMLRPCServer):
 s = xmlrpc.client.ServerProxy('http://localhost:8080')
 
 #Adding worker to master
-s.addWorker('http://localhost:8090')
+s.addWorker('http://localhost:8091')
 
 # Server dataframe initialized to empty dataframe
 df = pd.read_csv("test1.csv")

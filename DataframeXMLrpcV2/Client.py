@@ -19,7 +19,7 @@ connections = update_workers(master)
 
 print("Antes")
 print(connections)
-connections[0].kill()
+master.removeWorker("http://localhost:8092")
 time.sleep(4)
 
 connections = update_workers(master)
